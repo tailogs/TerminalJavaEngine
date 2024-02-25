@@ -3,42 +3,8 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
-    enum Color {
-        RESET("\u001B[0m"),
-        BLACK("\u001B[30m"),
-        RED("\u001B[31m"),
-        GREEN("\u001B[32m"),
-        YELLOW("\u001B[33m"),
-        BLUE("\u001B[34m"),
-        PURPLE("\u001B[35m"),
-        CYAN("\u001B[36m"),
-        WHITE("\u001B[37m");
 
-        private final String code;
-
-        Color(String code) {
-            this.code = code;
-        }
-
-        @Override
-        public String toString() {
-            return code;
-        }
-    }
-
-    String[][] map = {
-            {"#", "#", "#", "#", "#", "#", "#", "#", "#", "#"},
-            {"#", " ", " ", " ", " ", " ", "$", " ", " ", "#"},
-            {"#", " ", " ", "!", " ", " ", " ", " ", " ", "#"},
-            {"#", " ", " ", " ", " ", " ", " ", "!", " ", "#"},
-            {"#", "A", " ", " ", "@", " ", " ", " ", " ", "#"},
-            {"#", " ", " ", " ", " ", " ", " ", " ", " ", "#"},
-            {"#", " ", " ", "!", " ", " ", " ", "A", " ", "#"},
-            {"#", " ", " ", " ", " ", " ", " ", " ", " ", "#"},
-            {"#", " ", "A", " ", " ", " ", " ", " ", " ", "#"},
-            {"#", "#", "#", "#", "#", "#", "#", "#", "#", "#"},
-    };
-
+    _Map __map = new _Map();
     String textError = "[ Все в порядке ]";
     String plot = "Тут описывается короткий сюжет именно в этот момент, несколько строк.";
     int lvlPlayer, expCurrent, expRequired = 50;
@@ -46,43 +12,6 @@ public class Main {
 
     int playerX = 4;
     int playerY = 4;
-
-    // Вывод обозначений символов с цветом
-    public void printLegend() {
-        System.out.println(Color.RED + "# - стены" + Color.RESET);
-        System.out.println(Color.GREEN + "@ - игрок" + Color.RESET);
-        System.out.println(Color.YELLOW + "$ - союзник" + Color.RESET);
-        System.out.println(Color.BLUE + "A - враг" + Color.RESET);
-        System.out.println(Color.PURPLE + "! - ловушка или интересный элемент" + Color.RESET);
-    }
-
-    // Вывод карты с заданными цветами для различных символов
-    public void printMap() {
-        for (String[] row : map) {
-            for (String cell : row) {
-                switch (cell) {
-                    case "#":
-                        System.out.print(Color.WHITE + cell + " " + Color.RESET);
-                        break;
-                    case "@":
-                        System.out.print(Color.GREEN + cell + " " + Color.RESET);
-                        break;
-                    case "$":
-                        System.out.print(Color.YELLOW + cell + " " + Color.RESET);
-                        break;
-                    case "A":
-                        System.out.print(Color.BLUE + cell + " " + Color.RESET);
-                        break;
-                    case "!":
-                        System.out.print(Color.PURPLE + cell + " " + Color.RESET);
-                        break;
-                    default:
-                        System.out.print(cell + " ");
-                }
-            }
-            System.out.println();
-        }
-    }
 
     // Основной метод игры
     public void playGame() {
@@ -95,8 +24,8 @@ public class Main {
                 System.out.println();
             }
 
-            printMap();
-            printLegend();
+            __map.printMap();
+            __map.printLegend();
 
 
             System.out.println(Color.CYAN + "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" + Color.RESET);
@@ -138,11 +67,11 @@ public class Main {
         int newX = playerX + deltaX;
         int newY = playerY + deltaY;
 
-        if (map[newX][newY].equals(" ") || map[newX][newY].equals("$")) {
-            map[playerX][playerY] = " ";
+        if (__map._map[newX][newY].equals(" ") || __map._map[newX][newY].equals("$")) {
+            __map._map[playerX][playerY] = " ";
             playerX = newX;
             playerY = newY;
-            map[playerX][playerY] = "@";
+            __map._map[playerX][playerY] = "@";
             textError = "[ Все в порядке ]";
         } else {
             textError = "[ Нельзя пройти сквозь стену или врага! ]";
